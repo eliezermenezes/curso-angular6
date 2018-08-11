@@ -1,0 +1,22 @@
+.layout-site {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.layout-site .topo {
+  border: 1px solid blue;
+  height: 150px;
+}
+
+.layout-site .principal {
+  border: 1px solid black;
+  flex: 1;
+  width: 100%;
+}
+
+.layout-site .rodape {
+  border: 1px solid green;
+  height: 50px;
+}
