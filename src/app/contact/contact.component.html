@@ -1,27 +1,72 @@
 <form #formulario="ngForm" (ngSubmit)="onSave()">
   <fieldset>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="nome">Nome</label>
+        <input type="text" class="form-control" name="nome" [(ngModel)]="contact.nome">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="email">E-mail</label>
+        <input type="email" class="form-control" name="email" [(ngModel)]="contact.email">
+      </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="uf">UF</label>
+          <select name="uf" class="form-control" [(ngModel)]="contact.uf">
+            <option [ngValue]="undefined" selected> Selecione </option>
+            <option *ngFor="let uf of ufs" [value]="uf"> {{ uf }} </option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="cidade">Cidade</label>
+          <input type="cidade" class="form-control" name="cidade" [(ngModel)]="contact.cidade">
+        </div>
+      </div>
     <div class="form-group">
-      <label for="nome">Nome</label>
-      <input type="text" class="form-control" name="nome" [(ngModel)]="contact.nome">
+        <label for="mensagem">Mensagem</label>
+        <input type="mensagem" class="form-control" name="mensagem" [(ngModel)]="contact.mensagem">
     </div>
     <div class="form-group">
-      <label for="email">E-mail</label>
-      <input type="email" class="form-control" name="email" [(ngModel)]="contact.email">
-    </div>
-    <div class="form-group">
-      <label for="uf">UF</label>
-      <select name="uf" class="form-control" [(ngModel)]="contact.uf">
-        <option [ngValue]="undefined" selected> Selecione </option>
-        <option *ngFor="let uf of ufs" [value]="uf"> {{ uf }} </option>
-      </select>
-    </div>
-    <div class="form-group">
-      <button class="btn btn-primary">
+      <button class="btn btn-primary" [disabled]="formulario.form.invalid">
         Enviar
       </button>
-    </div>
-   <pre>
-      {{  contact | json }}
-   </pre>
+    </div>   
   </fieldset>
+  <div>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>UF</th>
+          <th>Cidade</th>
+          <th>Mensagem</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngIf="carregando"> <td colspan="6" class="text-center"> Aguarde... </td> </tr>
+      </tbody>
+      <tbody *ngIf="!carregando">   
+        <tr *ngFor="let contato of contatos; let num = index">
+            <td> {{ num + 1 }} </td>
+            <td> {{ contato.nome }} </td>
+            <td> {{ contato.email }} </td>
+            <td> {{ contato.uf }} </td>
+            <td> {{ contato.cidade }} </td>
+            <td [title]="contato.mensagem"> {{ contato.mensagem | resumir:20:'...' }} </td>
+            <td>
+              <div>
+                <button type="button" class="btn btn-danger btn-sm" (click)="delete(contato._id)">Deletar</button>
+                <button type="button" class="btn btn-info btn-sm" (click)="carregarContato(contato)">Editar</button>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
 </form>

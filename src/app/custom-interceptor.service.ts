@@ -8,7 +8,7 @@ export class CustomInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
       setHeaders: {
-        'Accept-Language': 'pt-br'
+        //'Accept-Language': 'pt-br'
       }
     });
     return next.handle(req);
